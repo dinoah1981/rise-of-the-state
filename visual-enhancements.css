@@ -1,0 +1,213 @@
+/* Visual polish layer for Rise of the State.
+ * This file intentionally sits on top of styles.css so the original game engine stays stable.
+ */
+
+:root {
+  --glow: rgba(198,155,58,0.28);
+  --parchment: rgba(255,253,246,0.82);
+}
+
+body {
+  background:
+    radial-gradient(circle at 12% 8%, rgba(198,155,58,0.18), transparent 26rem),
+    radial-gradient(circle at 88% 18%, rgba(36,74,140,0.13), transparent 24rem),
+    radial-gradient(circle at 62% 105%, rgba(63,106,76,0.16), transparent 28rem),
+    linear-gradient(120deg, rgba(255,255,255,0.25), transparent 40%),
+    var(--bg);
+  overflow-x: hidden;
+}
+
+body::before {
+  content: "";
+  position: fixed;
+  inset: 0;
+  pointer-events: none;
+  background-image:
+    linear-gradient(rgba(107,47,31,0.045) 1px, transparent 1px),
+    linear-gradient(90deg, rgba(107,47,31,0.035) 1px, transparent 1px);
+  background-size: 44px 44px;
+  mask-image: radial-gradient(circle at center, black, transparent 82%);
+  opacity: 0.45;
+  z-index: -1;
+}
+
+.hud {
+  box-shadow: 0 12px 30px rgba(0,0,0,0.08);
+}
+
+.logo {
+  filter: drop-shadow(0 3px 5px rgba(0,0,0,0.18));
+}
+
+.card {
+  position: relative;
+  overflow: hidden;
+  border: 1px solid color-mix(in srgb, var(--accent) 25%, var(--rule));
+  background:
+    linear-gradient(180deg, rgba(255,255,255,0.82), rgba(255,253,246,0.96)),
+    var(--paper);
+  box-shadow: var(--shadow-2);
+}
+
+.card::before {
+  content: "";
+  position: absolute;
+  inset: 0;
+  pointer-events: none;
+  background:
+    radial-gradient(circle at 0% 0%, color-mix(in srgb, var(--accent) 16%, transparent), transparent 16rem),
+    linear-gradient(135deg, rgba(255,255,255,0.32), transparent 28%);
+}
+
+.card > * {
+  position: relative;
+  z-index: 1;
+}
+
+.hero {
+  border-radius: 24px;
+}
+
+.hero-emoji,
+.badge-pop,
+.title-stamp,
+.boss-stamp {
+  animation: floaty 4.8s ease-in-out infinite;
+}
+
+@keyframes floaty {
+  0%, 100% { transform: translateY(0); }
+  50% { transform: translateY(-8px); }
+}
+
+button.primary {
+  background:
+    linear-gradient(135deg, color-mix(in srgb, var(--accent) 90%, #ffffff 10%), color-mix(in srgb, var(--accent) 70%, #000000 30%));
+  border-color: color-mix(in srgb, var(--accent) 90%, #000000 10%);
+  box-shadow: 0 8px 20px color-mix(in srgb, var(--accent) 24%, transparent);
+}
+
+button.primary:hover {
+  box-shadow: 0 13px 30px color-mix(in srgb, var(--accent) 30%, transparent);
+}
+
+.option,
+.decision-card,
+.classify-card,
+.order-item,
+.match-card,
+.bucket,
+.stat,
+.report-row {
+  box-shadow: 0 3px 10px rgba(0,0,0,0.045);
+}
+
+.option:hover:not(.disabled),
+.decision-card:hover:not(.locked),
+.match-card:hover:not(.locked),
+.classify-card:hover,
+.order-item:hover {
+  transform: translateY(-2px) scale(1.005);
+}
+
+.progress-fill {
+  background: linear-gradient(90deg, var(--accent), var(--gold));
+  box-shadow: 0 0 14px var(--glow);
+}
+
+/* Map activity visuals */
+.map-quest {
+  display: grid;
+  grid-template-columns: minmax(260px, 1.1fr) minmax(220px, 0.9fr);
+  gap: 18px;
+  align-items: center;
+  margin: 20px 0 8px;
+}
+
+.ancient-map {
+  position: relative;
+  min-height: 310px;
+  border-radius: 22px;
+  border: 2px solid color-mix(in srgb, var(--accent) 35%, var(--rule));
+  background:
+    radial-gradient(circle at 23% 42%, rgba(36,74,140,0.18), transparent 7rem),
+    radial-gradient(circle at 48% 55%, rgba(160,74,27,0.22), transparent 8rem),
+    radial-gradient(circle at 72% 32%, rgba(63,106,76,0.18), transparent 7rem),
+    linear-gradient(145deg, #f9e5bd, #f4d79f 55%, #e7bd72);
+  box-shadow: inset 0 0 40px rgba(90,56,18,0.22), 0 18px 34px rgba(0,0,0,0.12);
+  overflow: hidden;
+}
+
+.ancient-map::before {
+  content: "";
+  position: absolute;
+  inset: 0;
+  background:
+    linear-gradient(100deg, transparent 12%, rgba(36,74,140,0.18) 13%, transparent 16%, transparent 58%, rgba(36,74,140,0.2) 60%, transparent 64%),
+    radial-gradient(ellipse at 72% 36%, rgba(255,255,255,0.25), transparent 22%),
+    repeating-linear-gradient(24deg, rgba(91,61,26,0.08) 0 2px, transparent 2px 14px);
+  mix-blend-mode: multiply;
+}
+
+.map-label {
+  position: absolute;
+  transform: translate(-50%, -50%);
+  display: grid;
+  place-items: center;
+  gap: 2px;
+  min-width: 76px;
+  padding: 7px 10px;
+  border-radius: 999px;
+  background: rgba(255,253,246,0.9);
+  border: 1.5px solid rgba(91,61,26,0.28);
+  color: #2b1d10;
+  font-weight: 800;
+  font-size: 13px;
+  box-shadow: 0 5px 14px rgba(0,0,0,0.12);
+}
+
+.map-label span {
+  font-size: 20px;
+  line-height: 1;
+}
+
+.map-label.sumer { left: 50%; top: 64%; }
+.map-label.babylon { left: 57%; top: 51%; }
+.map-label.athens { left: 31%; top: 38%; }
+.map-label.rome { left: 23%; top: 31%; }
+.map-label.modern { left: 76%; top: 70%; }
+
+.map-note {
+  background: var(--accent-soft);
+  border: 1px solid var(--rule);
+  border-left: 5px solid var(--accent);
+  border-radius: 16px;
+  padding: 16px;
+}
+
+.map-note h3 {
+  margin: 0 0 8px;
+  font-size: 18px;
+}
+
+.map-note p {
+  margin: 0 0 10px;
+}
+
+.map-note ul {
+  margin: 0 0 0 18px;
+  padding: 0;
+}
+
+@media (max-width: 760px) {
+  .map-quest {
+    grid-template-columns: 1fr;
+  }
+  .ancient-map {
+    min-height: 260px;
+  }
+  .map-label {
+    min-width: 66px;
+    font-size: 12px;
+  }
+}
