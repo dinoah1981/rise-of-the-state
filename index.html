@@ -1,0 +1,227 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>Rise of the State — PGG Unit 5 Lessons 11.1 & 11.2</title>
+<link rel="stylesheet" href="styles.css">
+</head>
+<body>
+
+<header class="hud">
+  <div class="hud-left">
+    <span class="logo">🏛️</span>
+    <div class="title-stack">
+      <div class="game-title">Rise of the State</div>
+      <div class="game-sub" id="hud-act">Begin the journey</div>
+    </div>
+  </div>
+  <div class="hud-right">
+    <div class="lp-pill" title="Legitimacy Points">
+      <span class="lp-ico">✦</span>
+      <span class="lp-num" id="lp-num">0</span>
+      <span class="lp-label">LP</span>
+    </div>
+    <div class="badges-tray" id="badges-tray" aria-label="Earned badges"></div>
+  </div>
+</header>
+
+<div class="progress-rail">
+  <div class="progress-fill" id="progress-fill"></div>
+</div>
+
+<main id="app">
+
+  <!-- Welcome -->
+  <section id="screen-welcome" class="screen active">
+    <div class="card hero">
+      <div class="hero-emoji">🏛️</div>
+      <h1>Rise of the State</h1>
+      <p class="lede">A 5-act journey through how humans built governments, from the first Sumerian kings to the modern nation-state.</p>
+      <p>You'll earn <b>Legitimacy Points (LP)</b> for correct answers and unlock <b>Badges</b> for finishing each act. Hit the boss exam at the end to claim a Magistrate's title.</p>
+      <div class="form">
+        <label>Your name <input id="name" type="text" maxlength="40" placeholder="Type your name"></label>
+        <label>Class period <span class="muted">(optional)</span> <input id="period" type="text" maxlength="6" placeholder="e.g. 1"></label>
+      </div>
+      <button id="start-btn" class="primary big">Start the journey →</button>
+      <p class="micro muted">Plan on about 30–40 minutes of focused play. Your progress is saved in this browser as you go.</p>
+    </div>
+  </section>
+
+  <!-- Act intro -->
+  <section id="screen-act-intro" class="screen">
+    <div class="card act-intro">
+      <p class="kicker" id="ai-kicker"></p>
+      <h2 id="ai-title"></h2>
+      <p class="lede" id="ai-sub"></p>
+      <button id="ai-go" class="primary big">Enter the act →</button>
+    </div>
+  </section>
+
+  <!-- Reading -->
+  <section id="screen-reading" class="screen">
+    <div class="card" id="rd-card">
+      <p class="kicker" id="rd-kicker"></p>
+      <h2 id="rd-title"></h2>
+      <div class="prose" id="rd-body"></div>
+      <button id="rd-next" class="primary">Continue →</button>
+    </div>
+  </section>
+
+  <!-- MCQ -->
+  <section id="screen-mcq" class="screen">
+    <div class="card" id="mc-card">
+      <p class="kicker" id="mc-kicker"></p>
+      <h2 class="q" id="mc-q"></h2>
+      <div class="options" id="mc-options"></div>
+      <div class="feedback" id="mc-fb" hidden></div>
+      <button id="mc-next" class="primary" hidden>Continue →</button>
+    </div>
+  </section>
+
+  <!-- Classify (drag items into buckets) -->
+  <section id="screen-classify" class="screen">
+    <div class="card wide" id="cl-card">
+      <p class="kicker" id="cl-kicker"></p>
+      <h2 class="q" id="cl-q"></h2>
+      <p class="muted micro" id="cl-hint">Drag each card into one of the buckets. Or tap a card, then tap a bucket.</p>
+      <div class="classify-pool" id="cl-pool"></div>
+      <div class="classify-buckets" id="cl-buckets"></div>
+      <div class="row">
+        <button id="cl-check" class="primary">Check</button>
+        <button id="cl-reset" class="ghost">Reset</button>
+      </div>
+      <div class="feedback" id="cl-fb" hidden></div>
+      <button id="cl-next" class="primary" hidden>Continue →</button>
+    </div>
+  </section>
+
+  <!-- Decision moment -->
+  <section id="screen-decision" class="screen">
+    <div class="card" id="dc-card">
+      <p class="kicker" id="dc-kicker"></p>
+      <div class="scenario" id="dc-scenario"></div>
+      <h2 class="q" id="dc-prompt"></h2>
+      <div class="decision-options" id="dc-options"></div>
+      <div class="feedback" id="dc-fb" hidden></div>
+      <button id="dc-next" class="primary" hidden>Continue →</button>
+    </div>
+  </section>
+
+  <!-- Order (drag-to-order) -->
+  <section id="screen-order" class="screen">
+    <div class="card" id="or-card">
+      <p class="kicker" id="or-kicker"></p>
+      <h2 class="q" id="or-q"></h2>
+      <p class="muted micro">Drag the steps into the right order — top is first. Or tap two cards to swap them.</p>
+      <ol class="order-list" id="or-list"></ol>
+      <div class="row">
+        <button id="or-check" class="primary">Check</button>
+        <button id="or-shuffle" class="ghost">Shuffle</button>
+      </div>
+      <div class="feedback" id="or-fb" hidden></div>
+      <button id="or-next" class="primary" hidden>Continue →</button>
+    </div>
+  </section>
+
+  <!-- Match -->
+  <section id="screen-match" class="screen">
+    <div class="card wide" id="mt-card">
+      <p class="kicker" id="mt-kicker"></p>
+      <h2 class="q" id="mt-q"></h2>
+      <p class="muted micro">Tap a card on the left, then tap its match on the right. Matched pairs lock in.</p>
+      <div class="match-board">
+        <div class="match-col" id="mt-lefts"></div>
+        <div class="match-col" id="mt-rights"></div>
+      </div>
+      <div class="feedback" id="mt-fb" hidden></div>
+      <button id="mt-next" class="primary" hidden>Continue →</button>
+    </div>
+  </section>
+
+  <!-- Badge unlock -->
+  <section id="screen-badge" class="screen">
+    <div class="card badge-card">
+      <div class="badge-pop" id="bg-pop">
+        <div class="badge-emoji" id="bg-emoji">🏅</div>
+      </div>
+      <p class="kicker">Badge unlocked</p>
+      <h2 id="bg-name"></h2>
+      <p class="lede" id="bg-desc"></p>
+      <button id="bg-next" class="primary">Continue →</button>
+    </div>
+  </section>
+
+  <!-- Act end -->
+  <section id="screen-act-end" class="screen">
+    <div class="card">
+      <p class="kicker">Act complete</p>
+      <h2 id="ae-title"></h2>
+      <div class="prose" id="ae-body"></div>
+      <button id="ae-next" class="primary big">Continue →</button>
+    </div>
+  </section>
+
+  <!-- Boss intro -->
+  <section id="screen-boss-intro" class="screen">
+    <div class="card boss-intro">
+      <div class="boss-stamp">⚖️</div>
+      <p class="kicker">The Magistrate Exam</p>
+      <h2>One question at a time. No going back.</h2>
+      <p class="lede">Twelve questions cover everything you've seen, plus a few spiraled-review zingers from earlier in the unit. You'll see whether each answer was right immediately, but you can't change it once you commit.</p>
+      <p>To claim a Magistrate's title or better, you need <b>at least 8 out of 12</b>. A perfect score earns you the title of <b>Imperator</b>.</p>
+      <button id="boss-go" class="primary big">Begin the exam →</button>
+    </div>
+  </section>
+
+  <!-- Boss question -->
+  <section id="screen-boss" class="screen">
+    <div class="card boss-card">
+      <div class="boss-meta">
+        <span id="boss-counter" class="boss-counter">Question 1 of 12</span>
+        <span id="boss-score" class="boss-score">0 correct</span>
+      </div>
+      <div class="boss-bar"><div id="boss-bar-fill"></div></div>
+      <h2 class="q" id="bq-q"></h2>
+      <div class="options" id="bq-options"></div>
+      <div class="feedback" id="bq-fb" hidden></div>
+      <button id="bq-next" class="primary" hidden>Next →</button>
+    </div>
+  </section>
+
+  <!-- Final results -->
+  <section id="screen-final" class="screen">
+    <div class="card final-card">
+      <div class="title-stamp" id="fn-emoji">🏛️</div>
+      <p class="kicker">Final result</p>
+      <h2 id="fn-title-name">—</h2>
+      <p class="lede" id="fn-blurb"></p>
+      <div class="final-stats">
+        <div class="stat"><span class="stat-num" id="fn-score">0</span><span class="stat-lbl">Boss score (/12)</span></div>
+        <div class="stat"><span class="stat-num" id="fn-lp">0</span><span class="stat-lbl">Total LP</span></div>
+        <div class="stat"><span class="stat-num" id="fn-badges">0</span><span class="stat-lbl">Badges</span></div>
+        <div class="stat"><span class="stat-num" id="fn-time">0</span><span class="stat-lbl">Minutes played</span></div>
+      </div>
+      <div id="fn-badge-row" class="final-badges"></div>
+      <details class="full-report">
+        <summary>Boss exam answer key</summary>
+        <div id="fn-report"></div>
+      </details>
+      <div class="row">
+        <button id="fn-copy" class="primary">Copy result to clipboard</button>
+        <button id="fn-restart" class="ghost">Play again</button>
+      </div>
+      <p class="micro muted">Tip: paste your result into Google Classroom or an email if your teacher asks for proof.</p>
+    </div>
+  </section>
+
+</main>
+
+<footer class="footer">
+  PGG · Unit 5 · Lessons 11.1 &amp; 11.2 · Comp Sci High
+</footer>
+
+<script src="data.js"></script>
+<script src="app.js"></script>
+</body>
+</html>
